@@ -13,7 +13,7 @@ public class Joueur {
 
     String Couleur;
 
-    int ListeJetons;
+    Jeton[] ListeJetons = new Jeton[21];
 
     int nombreDesintegrateurs;
     
@@ -31,6 +31,36 @@ public void affecterCouleur(String couleurajouter){
     Couleur=couleurajouter ;
     
 }
+
+public void ajouterJeton(Jeton jetonajouter) {
+    
+    for (int i = 0; i < ListeJetons.length; i++) {
+        if (ListeJetons[i] != null) {
+            ListeJetons[i] = jetonajouter;
+
+        }
+    }
+    
+}
+
+public void obtenirDesintegrateur(int desintegrateur) {
+    
+    nombreDesintegrateurs += 1;
+    
+}
+
+public boolean utiliserDesintegrateur(int desintegrateur) {
+    
+    if (nombreDesintegrateurs == 0) {
+        return false;
+    } else {
+        nombreDesintegrateurs -= 1;
+        return true;
+    }
+    
+}
+
+
 
 }
 
