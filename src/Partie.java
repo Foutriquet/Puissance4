@@ -80,9 +80,20 @@ public void attribuerCouleursAuxJoueurs(){
         
         attribuerCouleursAuxJoueurs();
         
-        
+        for (int i = 0; i <21; i++) {
+            
+            String couleurj1 = joueur1.Couleur;
+            Jeton J = new Jeton(couleurj1);
+            joueur1.ajouterJeton(J);
+            
+            String couleurj2 = joueur2.Couleur;
+            Jeton J2 = new Jeton(couleurj2);
+            joueur2.ajouterJeton(J2);
+        }
+       
         
     }
+    
     
     
     
