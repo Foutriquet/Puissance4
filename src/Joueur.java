@@ -8,7 +8,7 @@
  *
  * @author Utilisateur
  */
-public class Joueur {
+public class Joueur { //Initialisation du joueur
     String nom;
 
     String Couleur;
@@ -19,42 +19,62 @@ public class Joueur {
     
     int nombreJetonsRestant;
    
-
-public Joueur (String unnom) { //Ligne de code qui permet d'attribuer les attributs aux variables en une ligne
+    
+    
+ //CONSTRUCTEUR --------------------------------------------------------------  
+    
+    
+public Joueur (String unnom) { //Méthode constructeur qui attribue un nom au joueur
 
     nom = unnom;
 
 }
+    
+    
+ //METHODE --------------------------------------------------------------  
+    
+    
 
-
-public void affecterCouleur(String couleurajouter){
+public void affecterCouleur(String couleurajouter){ //Méthode pour affecter une couleur au Joueur
     Couleur=couleurajouter ;
     
 }
-
-public void ajouterJeton(Jeton jetonajouter) {
     
-    for (int i = 0; i < ListeJetons.length; i++) {
-        if (ListeJetons[i] != null) {
+    
+ //METHODE --------------------------------------------------------------  
+    
+    
+public void ajouterJeton(Jeton jetonajouter) { //Méthode pour ajouter un jeton au joueur
+    
+    for (int i = 0; i < ListeJetons.length; i++) { //On parcours ses jetons
+        if (ListeJetons[i] != null) {  //S'il n'en existe pas, on en ajoute un
             ListeJetons[i] = jetonajouter;
 
         }
     }
     
 }
-
-public void obtenirDesintegrateur(int desintegrateur) {
     
-    nombreDesintegrateurs += 1;
+    
+ //METHODE --------------------------------------------------------------  
+    
+    
+public void obtenirDesintegrateur(int desintegrateur) { //Méthode qui stock les désintégrateurs du joueur
+    
+    nombreDesintegrateurs += 1; //On les ajoute 
     
 }
-
-public boolean utiliserDesintegrateur(int desintegrateur) {
     
-    if (nombreDesintegrateurs == 0) {
+    
+ //METHODE --------------------------------------------------------------  
+    
+    
+public boolean utiliserDesintegrateur(int desintegrateur) { //Méthode qui utilise un Désintégrateur
+    
+    if (nombreDesintegrateurs == 0) { //S'il n'en a pas, alors il ne peux pas en placer
         return false;
     } else {
-        nombreDesintegrateurs -= 1;
+        nombreDesintegrateurs -= 1; //Si en a un, on l'enlève après utilisation
         return true;
     }
     
