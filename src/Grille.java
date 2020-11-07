@@ -9,14 +9,13 @@
  * @author Utilisateur
  */
 public class Grille { //Initialisation de la classe
-    Cellule [][] Cellule = new Cellule [6][7];
+    Cellule Cellule [][] = new Cellule[6][7];
 
     
 //CONSTRUCTEUR --------------------------------------------------------------
     
 public Grille() {
     
-    Cellule Cellule[][] = new Cellule[6][7];
     for ( int i = 0; i<6; i++) {
         for ( int j = 0; j<7; j++) {
             Cellule[i][j] = new Cellule();
@@ -24,19 +23,28 @@ public Grille() {
     }
     
 }
+ 
     
+//METHODE --------------------------------------------------------------
+    
+      
 public boolean ajouterJetonDansColonne(Jeton jetonajouter, int colonne) { //Méthode qui permet de jouer au jeu en ajoutant un jeton dans une colonne
     
-   int j = colonne; //On enregistre la colonne choisie par l'utilisateur
-   for (int i = 6; i > 0; i--){ //On fait une boucle pour faire tomber le Jeton sur la ligne la plus basse disponible
-       if (Cellule[i][j].affecterJeton(jetonajouter) == true) { //On vérifie donc la présence des Jetons en décroissance dans la colonne
-           return true; 
-       }
-         
+   if (colonneRemplie(colonne) == true) {
+       return false;
+   }
+    //On enregistre la colonne choisie par l'utilisateur
+   int i =0;
+   while (Cellule[i][colonne].jetonCourant != null) {
+       i += 1;
+   }
+   Cellule[i][colonne].affecterJeton(jetonajouter); //On vérifie donc la présence des Jetons en décroissance dans la colonne
+        
+      return true;    
 }
-   return false;
+  
 
-}
+
 
     
 //METHODE --------------------------------------------------------------
@@ -46,7 +54,7 @@ public boolean etreRemplie(){ //Méthode qui vérifie si la grille est remplie
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 7; j++){
             //On parcours toute la grille
-            if (Cellule[i][j] != null){ //S'il y a un jeton dans chaque case, alors la grille est remplie
+            if (Cellule[i][j].jetonCourant != null){ //S'il y a un jeton dans chaque case, alors la grille est remplie
                 return true;
             }
         }
@@ -62,8 +70,9 @@ public void viderGrille(){ //Méthode pour vider une Grille
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 7; j++){
             //On parcours toute la grille
-            Cellule[i][j] = null; //On vide chaque case de la grille
-               
+            Cellule[i][j].jetonCourant = null; //On vide chaque case de la grille
+            Cellule[i][j].desintegrateur = false;
+            Cellule[i][j].trouNoir = false;
             }
         }
     }
@@ -75,22 +84,32 @@ public void viderGrille(){ //Méthode pour vider une Grille
    
 public void afficherGrilleSurConsole(){ //Méthode d'affichage de la Grille sur la console
     
-    System.out.print("\n\n\n| "); //Ligne pour espacer la présentation
+    System.out.print("\n\n\n"); //Ligne pour espacer la présentation
     
-    for (int i = 0; i < 6; i++){
+    for (int i = 5; i >= 0; i--){ //Pour afficher du bas vers le haut
+        
+        System.out.print("|"); //Pour l'esthétique
         
         for (int j = 0; j < 7; j++){
             
-            //On parcours la grille
+            //On parcours la grille en vérifiant les éléments
             
-            System.out.print(Cellule[i][j]+" ; "); //On affiche chaque cellule dans l'ordre en l'espacant pour aérer le jeu
-        } 
-        System.out.print("|\n| "); //Ligne pour espacer la présentation
+            if (Cellule[i][j].jetonCourant == null) {
+                System.out.print(" |");
+            } else if (Cellule[i][j].jetonCourant.couleur == "orange") {
+                System.out.print("o|"); //o pour orange
+            } else {
+                System.out.print("x|"); //x pour rouge (comme les morpions
+            }
+            
+       
+    }
+     System.out.print("\n"); //Esthétique
     }
     
 }
-
     
+
 //METHODE --------------------------------------------------------------
     
    

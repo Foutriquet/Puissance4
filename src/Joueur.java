@@ -27,6 +27,8 @@ public class Joueur { //Initialisation du joueur
 public Joueur (String unnom) { //Méthode constructeur qui attribue un nom au joueur
 
     nom = unnom;
+    nombreDesintegrateurs = 0;
+    nombreJetonsRestant = 0;
 
 }
     
@@ -44,14 +46,9 @@ public void affecterCouleur(String couleurajouter){ //Méthode pour affecter une
  //METHODE --------------------------------------------------------------  
     
     
-public void ajouterJeton(Jeton jetonajouter) { //Méthode pour ajouter un jeton au joueur
+public void ajouterJeton(Jeton jetonajoute) { //Méthode pour ajouter un jeton au joueur
     
-    for (int i = 0; i < ListeJetons.length; i++) { //On parcours ses jetons
-        if (ListeJetons[i] != null) {  //S'il n'en existe pas, on en ajoute un
-            ListeJetons[i] = jetonajouter;
-
-        }
-    }
+    ListeJetons[nombreJetonsRestant++] = jetonajoute;
     
 }
     

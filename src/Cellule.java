@@ -31,9 +31,8 @@ public Cellule() {  //Constructeur de la classe
     
 public boolean affecterJeton(Jeton ja){ //Méthode qui affecte un Jeton à l'attribut
     
-    Jeton reference; 
-    reference = recupererJeton();  //On cherche la référence du jeton
-    if (reference == null){ //Si la référence n'existe pas, on ajoute le jeton
+      //On cherche la référence du jeton
+    if (jetonCourant == null){ //Si la référence n'existe pas, on ajoute le jeton
        jetonCourant = ja; 
        return true;
     }
@@ -48,7 +47,7 @@ public boolean affecterJeton(Jeton ja){ //Méthode qui affecte un Jeton à l'att
     
 public Jeton recupererJeton(){ //Méthode pour récupérer un Jeton
     Jeton jetonretourner = jetonCourant;
-    //On stock le jeton dans une variable, puis re-initialise l'attribut de départ pour libérer de la place
+    jetonCourant = null; //On stock le jeton dans une variable, puis re-initialise l'attribut de départ pour libérer de la place
     return jetonretourner;
 }
 
@@ -122,8 +121,11 @@ public boolean presenceDesintegrateur(){ //Même raisonnement que le Trou Noir
     
     
 public String lireCouleurDuJeton(){ //Méthode qui lit la couleur du Jeton dans la classe Cellule
+    if (recupererJeton() != null) {
+            return(jetonCourant.lireCouleur()); //On fait intervenir la méthode lireCouleur dans Jeton
+    } 
     
-    return(jetonCourant.lireCouleur()); //On fait intervenir la méthode lireCouleur dans Jeton
+    return ("vide");
     
     
 }
