@@ -32,7 +32,7 @@ public boolean ajouterJetonDansColonne(Jeton jetonajouter, int colonne) { //Mét
 //METHODE --------------------------------------------------------------
     
    
-public boolean etreRemplie(){ //Méthode qui vérifie si la grille est vide
+public boolean etreRemplie(){ //Méthode qui vérifie si la grille est remplie
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 7; j++){
             //On parcours toute la grille

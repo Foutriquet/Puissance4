@@ -1,6 +1,6 @@
 
 import java.util.Random;
-
+import java.util.Scanner;
 /*
  * TP3 - Super Puissance
  * TROUILLET Nicolas - GOMBAULT Mallory 
@@ -8,9 +8,12 @@ import java.util.Random;
  */
 
 /**
- * 
+
  * @author Utilisateur
  */
+
+
+
 public class Partie { //Initialisation de la classe Partie
     Joueur ListeJoueurs[] = new Joueur[2];
     Grille grilledejeu;
@@ -89,12 +92,40 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
             
         }
         
+        
+        
+       
+        
+    }
+    
+    
+        
+    
+ //METHODE --------------------------------------------------------------  
+    
+    
+    public void debuterPartie() {
+        
+        initialiserPartie(); //J'initialise la grille
+        
+        grilledejeu.afficherGrilleSurConsole(); //On affiche la grille de départ
+        
         //On initialise les joueurs
+        Scanner sc; //J'introduis l'outil scanner
         
-        Joueur joueur1 = ListeJoueurs[0];
-        Joueur joueur2 = ListeJoueurs[1];
+        sc = new Scanner (System.in); 
+        System.out.print("Entrez le nom du premier joueur : ");  
+        String nomjoueur1 = sc.nextLine(); //Demande au joueur son nom 
         
-        attribuerCouleursAuxJoueurs(); //On attribue leur couleur
+        System.out.print("Entrez le nom du deuxième joueur : ");  
+        String nomjoueur2 = sc.nextLine();
+        
+        Joueur joueur1 = new Joueur(nomjoueur1); //Crée le joueur avec le constructeur
+        joueur1 = ListeJoueurs[0];
+        Joueur joueur2 = new Joueur(nomjoueur2);
+        joueur1 = ListeJoueurs[0];
+        
+         attribuerCouleursAuxJoueurs(); //On attribue leur couleur
         
         //On attribue leur jeton
         for (int i = 0; i <21; i++) {
@@ -108,15 +139,137 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
             joueur2.ajouterJeton(J2);
         } //Et ce, 21 fois
         
-    }
-    
-    
         
-    
- //METHODE --------------------------------------------------------------  
-    
-    
-    
+        Random joueurquicommence = new Random(); //On tire au sort le joueur qui jouera en premier
+        
+        int premiertour = joueurquicommence.nextInt(1);
+        int numerojeton1 = 0; //Initialise les jetons qui seront joués  par les joueurs
+        int numerojeton2 = 0; 
+        //On commence le jeu
+        
+        while (grilledejeu.etreGagnantePourJoueur(joueur1) == false || grilledejeu.etreGagnantePourJoueur(joueur2) == false || grilledejeu.etreRemplie() == false) { //Boucle pour faire joueur les joueurs tour par tour
+            if ( premiertour == 0) { //cette boucle permet de faire jouer le joueur 1
+                System.out.println("\n\n Choississez l'action que vous souhaitez faire : \n\n1)Placer un jeton\n2)Placer un Désintégrateur\n3)Récupérer un jeton\n\n");
+                int choix = sc.nextInt();
+                
+                while ((choix !=1 || choix != 2 || choix != 3) || (choix ==2 && joueur1.nombreDesintegrateurs ==0)) { //On vérifie que la saisie de l'utilisateur est correcte
+                    System.out.println("\n\n Votre saisie n'est pas bonne ou alors vous n'avez pas de désintégrateur à votre disposition. Tapez 1, 2 ou 3 ");
+                    choix = sc.nextInt();
+                }
+                
+               
+                
+                //On traite trois par trois
+                
+                if (choix == 1) {
+                    
+                    System.out.println("\n\n Choississez la colonne dans laquelle vous souhaitez déposer un jeton"); //On lui demande la colonne 
+                    int colonne = sc.nextInt();
+                    
+                    
+                    Jeton jeton1 = joueur1.ListeJetons[numerojeton1]; //On sélectionne le jeton qu'il va jouer
+                    grilledejeu.ajouterJetonDansColonne(jeton1, colonne); //On le place dans la colonne
+                    joueur1.ListeJetons[numerojeton1] = null; //On supprime le jeton de sa liste
+                    
+                    for (int ligne = 0; ligne < 6; ligne++) {
+                        grilledejeu.Cellule[ligne][colonne].activerTrouNoir(); //On vérifie si le jeton est placé sur un trou noir. Si oui, on le supprime
+                        if (grilledejeu.Cellule[ligne][colonne].recupererDesintegrateur() == true) {
+                            joueur1.obtenirDesintegrateur(1);
+                        } 
+                        
+                    }
+                    
+                    numerojeton1 +=1; //Ligne essentielle pour les prochains tours du joueur
+                    
+                    
+                } else if (choix == 2) {
+                    
+                    
+                    System.out.println("\n\n Indiquer la ligne et la colonne où vous souhaitez désintégrer votre jeton"); //il choisit le jeton à récupérer
+                    
+                    System.out.println("\nColonne ?");
+                    int colonne1 = sc.nextInt();
+                    System.out.println("\nLigne ?");
+                    int ligne1 = sc.nextInt();
+                            
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant != null){ //Vérifie qu'il choisit un jeton
+                        
+                        System.out.println("\n\n Veuillez choisir un jeton et non une case vide");
+                    
+                        System.out.println("\nColonne ?");
+                        colonne1 = sc.nextInt();
+                        System.out.println("\nLigne ?");
+                        ligne1 = sc.nextInt();
+                    
+                    }
+                    
+                    joueur1.utiliserDesintegrateur(1); //On utilise le désintégrateur
+                    
+                    
+                    grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
+                    
+                    
+                } else { //Il récupère son jeton
+                    
+                    System.out.println("\n\n Indiquer la ligne et la colonne où vous souhaitez récupérer votre jeton"); //il choisit le jeton à récupérer
+                    
+                    System.out.println("\nColonne ?");
+                    int colonne1 = sc.nextInt();
+                    System.out.println("\nLigne ?");
+                    int ligne1 = sc.nextInt();
+                            
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur1.Couleur){ //Vérifie qu'il choisit un bon jeton
+                        
+                        System.out.println("\n\n Veuillez choisir un bon jeton disponible qui vous appartient");
+                    
+                        System.out.println("\nColonne ?");
+                        colonne1 = sc.nextInt();
+                        System.out.println("\nLigne ?");
+                        ligne1 = sc.nextInt();
+                    
+                    }
+                    
+                    Jeton jetonrecuperer = grilledejeu.recupererJeton2(ligne1-1, colonne1-1); //On récupère la référence du Jeton
+                    joueur1.ListeJetons[numerojeton1+1]= jetonrecuperer; //On le reinjecte dans la liste du joueur
+                    
+                    grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
+                    
+                    numerojeton1 -=1;
+                } 
+                    
+                
+                premiertour = 1;
+            } else { //Cette boucle permet de faire jouer le joueur 2
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                premiertour = 0;
+            }
+            
+            grilledejeu.afficherGrilleSurConsole();
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+    }
     
     
     

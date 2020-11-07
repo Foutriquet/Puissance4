@@ -61,7 +61,7 @@ public void ajouterJeton(Jeton jetonajouter) { //Méthode pour ajouter un jeton 
     
 public void obtenirDesintegrateur(int desintegrateur) { //Méthode qui stock les désintégrateurs du joueur
     
-    nombreDesintegrateurs += 1; //On les ajoute 
+    nombreDesintegrateurs += desintegrateur; //On les ajoute 
     
 }
     

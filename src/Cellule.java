@@ -48,7 +48,7 @@ public boolean affecterJeton(Jeton ja){ //Méthode qui affecte un Jeton à l'att
     
 public Jeton recupererJeton(){ //Méthode pour récupérer un Jeton
     Jeton jetonretourner = jetonCourant;
-    jetonCourant = null; //On stock le jeton dans une variable, puis re-initialise l'attribut de départ pour libérer de la place
+    //On stock le jeton dans une variable, puis re-initialise l'attribut de départ pour libérer de la place
     return jetonretourner;
 }
 
@@ -135,15 +135,18 @@ public String lireCouleurDuJeton(){ //Méthode qui lit la couleur du Jeton dans 
     
 public boolean recupererDesintegrateur(){ //Méthode de récupération d'un désintégrateur
     
-    if (presenceDesintegrateur() == true) { //On vérifie qu'il y a un désintégrateur
+    if (jetonCourant != null && presenceDesintegrateur() == true) { //On vérifie qu'il y a un désintégrateur et un Jeton
         
         desintegrateur = false; //On le récupère
         return true;
 
+    }  
+      return false;
     }
-    return false;
     
-}
+   
+    
+
 
 
 public boolean activerTrouNoir(){ //Méthode d'activation d'un Trou Noir
