@@ -14,6 +14,16 @@ public class Grille { //Initialisation de la classe
     
 //CONSTRUCTEUR --------------------------------------------------------------
     
+public Grille() {
+    
+    Cellule Cellule[][] = new Cellule[6][7];
+    for ( int i = 0; i<6; i++) {
+        for ( int j = 0; j<7; j++) {
+            Cellule[i][j] = new Cellule();
+        }
+    }
+    
+}
     
 public boolean ajouterJetonDansColonne(Jeton jetonajouter, int colonne) { //Méthode qui permet de jouer au jeu en ajoutant un jeton dans une colonne
     

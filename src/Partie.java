@@ -51,14 +51,8 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
     public void initialiserPartie() {
         
         //On vide la grille si elle est pleine
-        
-        for ( int i = 0; i < 6; i++) { 
-            for (int j =0; j<7; j++) {
-                if (grilledejeu.Cellule[i][j].jetonCourant != null) {
-                    grilledejeu.Cellule[i][j].jetonCourant = null;
-                }
-            }
-        }
+        Grille grille = new Grille();
+        grille.viderGrille();
         
         //On place aléatoirement les Trou Noirs
         
@@ -68,10 +62,10 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
             Random b = new Random();
             int bb = b.nextInt(6);
             
-            grilledejeu.Cellule[aa][bb].placerTrouNoir(); //On en place 5
+            grille.Cellule[aa][bb].placerTrouNoir(); //On en place 5
             
             if (i > 3) {
-                grilledejeu.Cellule[aa][bb].placerDesintegrateur(); //Deux désintégrateurs doivent être sur des trous noirs, donc pour les deux derniers Trou Noir, on place 2 désintégrateurs
+                grille.Cellule[aa][bb].placerDesintegrateur(); //Deux désintégrateurs doivent être sur des trous noirs, donc pour les deux derniers Trou Noir, on place 2 désintégrateurs
             }
         }
         
@@ -84,11 +78,11 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
             int dd = d.nextInt(6);
             
             //On vérifie qu'aucun trou noir ne soit là où nous souhaitons mettre notre Désintégrateur
-            while (grilledejeu.Cellule[cc][dd].presenceTrouNoir() == true || grilledejeu.Cellule[cc][dd].presenceDesintegrateur() == true) { 
+            while (grille.Cellule[cc][dd].presenceTrouNoir() == true || grille.Cellule[cc][dd].presenceDesintegrateur() == true) { 
                 cc = c.nextInt(5);
                 dd = d.nextInt(6);
             }
-            grilledejeu.Cellule[cc][dd].placerDesintegrateur(); //On place
+            grille.Cellule[cc][dd].placerDesintegrateur(); //On place
             
         }
         
@@ -239,22 +233,96 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     
                 
                 premiertour = 1;
+                
             } else { //Cette boucle permet de faire jouer le joueur 2
                 
+                System.out.println("\n\n Choississez l'action que vous souhaitez faire : \n\n1)Placer un jeton\n2)Placer un Désintégrateur\n3)Récupérer un jeton\n\n");
+                int choix = sc.nextInt();
                 
+                while ((choix !=1 || choix != 2 || choix != 3) || (choix ==2 && joueur1.nombreDesintegrateurs ==0)) { //On vérifie que la saisie de l'utilisateur est correcte
+                    System.out.println("\n\n Votre saisie n'est pas bonne ou alors vous n'avez pas de désintégrateur à votre disposition. Tapez 1, 2 ou 3 ");
+                    choix = sc.nextInt();
+                }
                 
+               
                 
+                //On traite trois par trois
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                if (choix == 1) {
+                    
+                    System.out.println("\n\n Choississez la colonne dans laquelle vous souhaitez déposer un jeton"); //On lui demande la colonne 
+                    int colonne = sc.nextInt();
+                    
+                    
+                    Jeton jeton2 = joueur2.ListeJetons[numerojeton2]; //On sélectionne le jeton qu'il va jouer
+                    grilledejeu.ajouterJetonDansColonne(jeton2, colonne); //On le place dans la colonne
+                    joueur2.ListeJetons[numerojeton2] = null; //On supprime le jeton de sa liste
+                    
+                    for (int ligne = 0; ligne < 6; ligne++) {
+                        grilledejeu.Cellule[ligne][colonne].activerTrouNoir(); //On vérifie si le jeton est placé sur un trou noir. Si oui, on le supprime
+                        if (grilledejeu.Cellule[ligne][colonne].recupererDesintegrateur() == true) {
+                            joueur2.obtenirDesintegrateur(1);
+                        } 
+                        
+                    }
+                    
+                    numerojeton2 +=1; //Ligne essentielle pour les prochains tours du joueur
+                    
+                    
+                } else if (choix == 2) {
+                    
+                    
+                    System.out.println("\n\n Indiquer la ligne et la colonne où vous souhaitez désintégrer votre jeton"); //il choisit le jeton à récupérer
+                    
+                    System.out.println("\nColonne ?");
+                    int colonne1 = sc.nextInt();
+                    System.out.println("\nLigne ?");
+                    int ligne1 = sc.nextInt();
+                            
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant != null){ //Vérifie qu'il choisit un jeton
+                        
+                        System.out.println("\n\n Veuillez choisir un jeton et non une case vide");
+                    
+                        System.out.println("\nColonne ?");
+                        colonne1 = sc.nextInt();
+                        System.out.println("\nLigne ?");
+                        ligne1 = sc.nextInt();
+                    
+                    }
+                    
+                    joueur2.utiliserDesintegrateur(1); //On utilise le désintégrateur
+                    
+                    
+                    grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
+                    
+                    
+                } else { //Il récupère son jeton
+                    
+                    System.out.println("\n\n Indiquer la ligne et la colonne où vous souhaitez récupérer votre jeton"); //il choisit le jeton à récupérer
+                    
+                    System.out.println("\nColonne ?");
+                    int colonne1 = sc.nextInt();
+                    System.out.println("\nLigne ?");
+                    int ligne1 = sc.nextInt();
+                            
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur2.Couleur){ //Vérifie qu'il choisit un bon jeton
+                        
+                        System.out.println("\n\n Veuillez choisir un bon jeton disponible qui vous appartient");
+                    
+                        System.out.println("\nColonne ?");
+                        colonne1 = sc.nextInt();
+                        System.out.println("\nLigne ?");
+                        ligne1 = sc.nextInt();
+                    
+                    }
+                    
+                    Jeton jetonrecuperer = grilledejeu.recupererJeton2(ligne1-1, colonne1-1); //On récupère la référence du Jeton
+                    joueur2.ListeJetons[numerojeton2+1]= jetonrecuperer; //On le reinjecte dans la liste du joueur
+                    
+                    grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
+                    
+                    numerojeton2 -=1;
+                }
                 premiertour = 0;
             }
             

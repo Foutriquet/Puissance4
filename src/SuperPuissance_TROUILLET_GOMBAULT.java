@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package superpuissance_trouillet_gombault;
+
 
 /**
  *
@@ -15,7 +15,10 @@ public class SuperPuissance_TROUILLET_GOMBAULT {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        Partie partie1 = new Partie();
+        partie1.debuterPartie();
+        
     }
     
 }

@@ -18,10 +18,10 @@ public class Cellule { //Initialisation de la classe
  //CONSTRUCTEUR --------------------------------------------------------------  
     
     
-public Cellule(Jeton jeton, boolean trou, boolean desinteg ) {  //Constructeur de la classe
-    jetonCourant = jeton;
-    trouNoir = trou;
-    desintegrateur = desinteg;
+public Cellule() {  //Constructeur de la classe
+    jetonCourant = null;
+    trouNoir = false;
+    desintegrateur = false;
     
 }
     
