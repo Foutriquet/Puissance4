@@ -51,15 +51,19 @@ public boolean ajouterJetonDansColonne(Jeton jetonajouter, int colonne) { //Mét
     
    
 public boolean etreRemplie(){ //Méthode qui vérifie si la grille est remplie
+    boolean v=false;
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 7; j++){
             //On parcours toute la grille
             if (Cellule[i][j].jetonCourant != null){ //S'il y a un jeton dans chaque case, alors la grille est remplie
-                return true;
+                v=true;
+            }
+            else{
+                v=false;
             }
         }
     }
-    return false;
+    return v;
 }
 
     
@@ -125,6 +129,7 @@ public boolean celluleOccupee(int ligne, int colonne){  //Méthode qui vérifie 
     
    
 public String lireCouleurDuJeton1(int ligne, int colonne){ //Méthode pour lire la couleur du Jeton dans la grille
+    
     return (Cellule[ligne][colonne].lireCouleurDuJeton()); //Utilisation de la méthode lireCouleurDuJeton dans la classe cellule
 }
 
@@ -142,25 +147,25 @@ public boolean etreGagnantePourJoueur(Joueur joueur){ // Méthode pour vérifier
             //En parcourant toute la grille
             
             //Vérifie les combinaisons sur une colonne
-        if (lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j) && lireCouleurDuJeton1(i + 1, j) == lireCouleurDuJeton1(i+2, j) && lireCouleurDuJeton1(i+2, j) == lireCouleurDuJeton1(i+3, j)){
+        if ( lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j) && lireCouleurDuJeton1(i + 1, j) == lireCouleurDuJeton1(i+2, j) && lireCouleurDuJeton1(i+2, j) == lireCouleurDuJeton1(i+3, j)){
             return true;
         }
             //Vérifie les combinaisons sur une ligne
-        if (lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i, j+1) && lireCouleurDuJeton1(i, j+1) == lireCouleurDuJeton1(i, j+2) && lireCouleurDuJeton1(i, j+2) == lireCouleurDuJeton1(i, j+3)){
+        if (lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i, j+1) && lireCouleurDuJeton1(i, j+1) == lireCouleurDuJeton1(i, j+2) && lireCouleurDuJeton1(i, j+2) == lireCouleurDuJeton1(i, j+3)){
             return true;
             
         }
-            //Vérifie les combinaisons diagonales de gauche à droite
-        if (lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j+1) && lireCouleurDuJeton1(i+1, j+1) == lireCouleurDuJeton1(i+2, j+2) && lireCouleurDuJeton1(i+2, j+2) == lireCouleurDuJeton1(i+3, j+3)){
+            //Vérifie les combinaisons diagonales montantes
+        if (lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j+1) && lireCouleurDuJeton1(i+1, j+1) == lireCouleurDuJeton1(i+2, j+2) && lireCouleurDuJeton1(i+2, j+2) == lireCouleurDuJeton1(i+3, j+3)){
             return true;
             
         }
-            //Vérifie les combinaisons diagonales de droite à gauche
-        if (lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i-1, j+1) && lireCouleurDuJeton1(i-1, j+1) == lireCouleurDuJeton1(i-2, j+2) && lireCouleurDuJeton1(i-2, j+2) == lireCouleurDuJeton1(i-3, j+3)){
+            //Vérifie les combinaisons diagonales descendante
+        if (i-3>=0 && lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i-1, j+1) && lireCouleurDuJeton1(i-1, j+1) == lireCouleurDuJeton1(i-2, j+2) && lireCouleurDuJeton1(i-2, j+2) == lireCouleurDuJeton1(i-3, j+3)){
             return true;
-            
-        }
         
+        }
+    
     }
           
     }
@@ -175,7 +180,7 @@ public boolean etreGagnantePourJoueur(Joueur joueur){ // Méthode pour vérifier
    
 public boolean colonneRemplie(int colonne){ //Méthode qui vérifie qu'une colonne soit remplie
     
-    if (celluleOccupee(0,colonne) == true){ //On ne change pas de ligne, on vérifie que la dernière case de la colonne soit occupée en faisant intervenir la méthode celluleOccupee
+    if (celluleOccupee(5,colonne) == true){ //On ne change pas de ligne, on vérifie que la dernière case de la colonne soit occupée en faisant intervenir la méthode celluleOccupee
         return true;
     }
     return false;
@@ -248,15 +253,10 @@ public Jeton recupererJeton2(int ligne, int colonne){ //Méthode pour récupére
    
 public void tasserGrille(int ligne, int colonne){ //Méthode pour décaler les jetons si l'un venait à être détruit
     
-    if (supprimerJeton2(ligne, colonne) == true) { //Si un jeton a été détruit, alors, je parcours la colonne et descend d'une ligne chaque jeton
-        for (int i = ligne; i>=0; i--){
-            Cellule[i][colonne].jetonCourant = Cellule[i+1][colonne].jetonCourant;
-            
+        int j=colonne;
+        for (int i = ligne; i<4; i++){
+            Cellule[i][j].jetonCourant = Cellule[i+1][j].jetonCourant;
+           
         }
-    }
-    
-    }
-
-
-
+}
 }

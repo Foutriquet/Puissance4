@@ -58,7 +58,7 @@ public Jeton recupererJeton(){ //Méthode pour récupérer un Jeton
     
 public boolean supprimerJeton(){ //Méthode pour supprimer un Jeton
     
-    if (recupererJeton() != null) {
+    if (recupererJeton() != null ) {
         
         jetonCourant = null; //On re-initialise le jeton s'il n'est pas déjà vide
         return true;
@@ -121,7 +121,7 @@ public boolean presenceDesintegrateur(){ //Même raisonnement que le Trou Noir
     
     
 public String lireCouleurDuJeton(){ //Méthode qui lit la couleur du Jeton dans la classe Cellule
-    if (recupererJeton() != null) {
+    if (this.jetonCourant != null) {
             return(jetonCourant.lireCouleur()); //On fait intervenir la méthode lireCouleur dans Jeton
     } 
     

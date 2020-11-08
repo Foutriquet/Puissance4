@@ -143,7 +143,8 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
         //On commence le jeu
         
         while (grilledejeu.etreGagnantePourJoueur(joueur1) == false && grilledejeu.etreGagnantePourJoueur(joueur2) == false && grilledejeu.etreRemplie() == false) { //Boucle pour faire joueur les joueurs tour par tour
-            
+            System.out.println("Nb désintégrateurs "+joueur1.nom +" "+joueur1.nombreDesintegrateurs);
+            System.out.println("Nb désintégrateurs "+joueur2.nom +" "+joueur2.nombreDesintegrateurs);
             if ( premiertour == 0) { //cette boucle permet de faire jouer le joueur 1
                 System.out.println("\n\nC'est au tour de " + joueur1.nom);
                 System.out.println("\n\n Choississez l'action que vous souhaitez faire : \n\n1)Placer un jeton\n2)Placer un Désintégrateur\n3)Récupérer un jeton\n\n");
@@ -164,8 +165,12 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                 if (choix == 1){
                     
                     System.out.println("\n\n Choississez la colonne dans laquelle vous souhaitez déposer un jeton"); //On lui demande la colonne 
-                    int colonne = sc.nextInt();
-                    
+                    int colonne;
+                    colonne = sc.nextInt();
+                    while (grilledejeu.colonneRemplie(colonne)==true)  {
+                    System.out.println("Cette colonne est Remplie choississez en une autre");
+                    colonne = sc.nextInt();
+                }
                     
                     Jeton jeton1 = joueur1.ListeJetons[numerojeton1]; //On sélectionne le jeton qu'il va jouer
                     grilledejeu.ajouterJetonDansColonne(jeton1, colonne-1); //On le place dans la colonne
@@ -204,9 +209,9 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     }
                     
                     joueur1.utiliserDesintegrateur(1); //On utilise le désintégrateur
-                    
-                    
+                    grilledejeu.Cellule[ligne1-1][colonne1-1].supprimerJeton();
                     grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
+                    
                     
                     
                 } else { //Il récupère son jeton
@@ -218,7 +223,7 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     System.out.println("\nLigne ?");
                     int ligne1 = sc.nextInt();
                             
-                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur1.Couleur){ //Vérifie qu'il choisit un bon jeton
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant==null || grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur1.Couleur){ //Vérifie qu'il choisit un bon jeton
                         
                         System.out.println("\n\n Veuillez choisir un bon jeton disponible qui vous appartient");
                     
@@ -231,10 +236,11 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     
                     Jeton jetonrecuperer = grilledejeu.recupererJeton2(ligne1-1, colonne1-1); //On récupère la référence du Jeton
                     joueur1.ListeJetons[numerojeton1+1]= jetonrecuperer; //On le reinjecte dans la liste du joueur
-                    
+                    grilledejeu.Cellule[ligne1-1][colonne1-1].supprimerJeton();
                     grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
                     
                     numerojeton1 -=1;
+                    
                 } 
                     
                 
@@ -245,10 +251,15 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                 System.out.println("\n\n Choississez l'action que vous souhaitez faire : \n\n1)Placer un jeton\n2)Placer un Désintégrateur\n3)Récupérer un jeton\n\n");
                 int choix = sc.nextInt();
                 
-                while ((choix !=1 || choix != 2 || choix != 3) || (choix ==2 && joueur1.nombreDesintegrateurs ==0)) { //On vérifie que la saisie de l'utilisateur est correcte
-                    System.out.println("\n\n Votre saisie n'est pas bonne ou alors vous n'avez pas de désintégrateur à votre disposition. Tapez 1, 2 ou 3 ");
+                while (choix !=1 && choix != 2 && choix != 3) { //On vérifie que la saisie de l'utilisateur est correcte
+                    System.out.println("\n\n Votre saisie n'est pas bonne. Tapez 1, 2 ou 3 ");
                     choix = sc.nextInt();
                 }
+                
+               while (choix == 2 && joueur2.nombreDesintegrateurs ==0) {
+                   System.out.println("\n\n Vous n'avez pas de désintégrateur actuellement. Tapez 1 ou 3 ");
+                    choix = sc.nextInt();
+               }
                 
                
                 
@@ -257,8 +268,11 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                 if (choix == 1) {
                     
                     System.out.println("\n\n Choississez la colonne dans laquelle vous souhaitez déposer un jeton"); //On lui demande la colonne 
-                    int colonne = sc.nextInt();
-                    
+                    int colonne;
+                    colonne = sc.nextInt();
+                    while (grilledejeu.colonneRemplie(colonne)==true)  {
+                    System.out.println("Cette colonne est Remplie choississez en une autre");
+                    colonne = sc.nextInt();}
                     
                     Jeton jeton2 = joueur2.ListeJetons[numerojeton2]; //On sélectionne le jeton qu'il va jouer
                     grilledejeu.ajouterJetonDansColonne(jeton2, colonne-1); //On le place dans la colonne
@@ -285,7 +299,7 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     System.out.println("\nLigne ?");
                     int ligne1 = sc.nextInt();
                             
-                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant != null){ //Vérifie qu'il choisit un jeton
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant == null){ //Vérifie qu'il choisit un jeton
                         
                         System.out.println("\n\n Veuillez choisir un jeton et non une case vide");
                     
@@ -297,8 +311,7 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     }
                     
                     joueur2.utiliserDesintegrateur(1); //On utilise le désintégrateur
-                    
-                    
+                    grilledejeu.Cellule[ligne1-1][colonne1-1].supprimerJeton();
                     grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
                     
                     
@@ -311,7 +324,7 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     System.out.println("\nLigne ?");
                     int ligne1 = sc.nextInt();
                             
-                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur2.Couleur){ //Vérifie qu'il choisit un bon jeton
+                    while (grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant==null || grilledejeu.Cellule[ligne1-1][colonne1-1].jetonCourant.couleur != joueur2.Couleur){ //Vérifie qu'il choisit un bon jeton
                         
                         System.out.println("\n\n Veuillez choisir un bon jeton disponible qui vous appartient");
                     
@@ -325,6 +338,7 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
                     Jeton jetonrecuperer = grilledejeu.recupererJeton2(ligne1-1, colonne1-1); //On récupère la référence du Jeton
                     joueur2.ListeJetons[numerojeton2+1]= jetonrecuperer; //On le reinjecte dans la liste du joueur
                     
+                    grilledejeu.Cellule[ligne1-1][colonne1-1].supprimerJeton();
                     grilledejeu.tasserGrille(ligne1-1, colonne1-1); //On tasse la grille en supprimant le jeton qui a été retiré
                     
                     numerojeton2 -=1;
@@ -346,9 +360,6 @@ public void attribuerCouleursAuxJoueurs(){ //Attribution des couleurs aux joueur
         
         
     }
-        
-        
-        
     }
     
     
