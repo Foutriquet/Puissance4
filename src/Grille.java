@@ -150,33 +150,34 @@ public boolean etreGagnantePourJoueur(Joueur joueur){ // Méthode pour vérifier
  
     //Ligne
     
-    for (int i = 0; i<6 ; i++){
+    for (int i = 0; i<=2 ; i++){
         for (int j = 0; j<7 ; j++){
-            //En parcourant toute la grille
-            
-            //Vérifie les combinaisons sur une colonne
+            //En parcourant toute la grille           
+
+             //Vérifie les combinaisons sur une colonne
         if ( lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j) && lireCouleurDuJeton1(i + 1, j) == lireCouleurDuJeton1(i+2, j) && lireCouleurDuJeton1(i+2, j) == lireCouleurDuJeton1(i+3, j)){
             return true;
         }
+    
+    }}
+     for (int i = 0; i<6 ; i++){
+        for (int j = 0; j<=3 ; j++){
             //Vérifie les combinaisons sur une ligne
         if (lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i, j+1) && lireCouleurDuJeton1(i, j+1) == lireCouleurDuJeton1(i, j+2) && lireCouleurDuJeton1(i, j+2) == lireCouleurDuJeton1(i, j+3)){
             return true;
             
-        }
-            //Vérifie les combinaisons diagonales montantes
+        }}}
+    for ( int i = 0; i<=2 ; i++){
+        for ( int j = 0; j<=3 ; j++){
+              //Vérifie les combinaisons diagonales montantes
         if (lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i+1, j+1) && lireCouleurDuJeton1(i+1, j+1) == lireCouleurDuJeton1(i+2, j+2) && lireCouleurDuJeton1(i+2, j+2) == lireCouleurDuJeton1(i+3, j+3)){
-            return true;
-            
-        }
-            //Vérifie les combinaisons diagonales descendante
-        if (i-3>=0 && lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i-1, j+1) && lireCouleurDuJeton1(i-1, j+1) == lireCouleurDuJeton1(i-2, j+2) && lireCouleurDuJeton1(i-2, j+2) == lireCouleurDuJeton1(i-3, j+3)){
-            return true;
-        
-        }
+            return true;}}}
+    for ( int i = 3; i>=3 && i<6 ; i++){
+        for ( int j = 0; j<=3 ; j++){
+              //Vérifie les combinaisons diagonales descendantes
+        if (lireCouleurDuJeton1(i, j) == joueur.Couleur && lireCouleurDuJeton1(i, j) == lireCouleurDuJeton1(i-1, j+1) && lireCouleurDuJeton1(i-1, j+1) == lireCouleurDuJeton1(i-2, j+2) && lireCouleurDuJeton1(i-2, j+2) == lireCouleurDuJeton1(i-3, j+3)){
+            return true;}}}
     
-    }
-          
-    }
     return false;
     
 }
