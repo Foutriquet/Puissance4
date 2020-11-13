@@ -100,10 +100,10 @@ public void afficherGrilleSurConsole(){ //Méthode d'affichage de la Grille sur 
             
             if (Cellule[i][j].jetonCourant == null) {
                 System.out.print(" |");
-            } else if (Cellule[i][j].jetonCourant.couleur == "orange") {
-                System.out.print("o|"); //o pour orange
-            } else {
-                System.out.print("x|"); //x pour rouge (comme les morpions
+            } else if (Cellule[i][j].jetonCourant.couleur == "rouge") {
+                System.out.print("r|"); //o pour orange
+            } else if (Cellule[i][j].jetonCourant.couleur == "jaune") {
+                System.out.print("j|"); //x pour rouge (comme les morpions
             }
             
        
