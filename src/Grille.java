@@ -98,13 +98,21 @@ public void afficherGrilleSurConsole(){ //Méthode d'affichage de la Grille sur 
             
             //On parcours la grille en vérifiant les éléments
             
+            if (Cellule[i][j].presenceTrouNoir() == true) {
+                System.out.print("T|"); //T pour trou Noir
+            } else if (Cellule[i][j].presenceDesintegrateur() == true) {
+                System.out.print("D|"); //D pour trou Noir
+            } else {
+            
             if (Cellule[i][j].jetonCourant == null) {
                 System.out.print(" |");
             } else if (Cellule[i][j].jetonCourant.couleur == "rouge") {
-                System.out.print("r|"); //o pour orange
+                System.out.print("r|"); //r pour rouge
             } else if (Cellule[i][j].jetonCourant.couleur == "jaune") {
-                System.out.print("j|"); //x pour rouge (comme les morpions
+                System.out.print("j|"); //j pour jaune
+            } 
             }
+            
             
        
     }
